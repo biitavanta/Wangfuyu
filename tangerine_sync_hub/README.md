@@ -13,8 +13,8 @@
 - GitHub Actions 每天定时跑一次 `npm run sync`
 - 产物写到仓库根目录 `docs/`
 - GitHub Pages 对外提供：
-  - `https://<用户名>.github.io/<仓库名>/latest.json`
-  - `https://<用户名>.github.io/<仓库名>/latest.txt`
+  - `https://biitavanta.github.io/Wangfuyu/latest.json`
+  - `https://biitavanta.github.io/Wangfuyu/latest.txt`
 - Auto.js 里的 `数据源地址` 指向 `latest.json`
 
 ## 支持的数据源模式

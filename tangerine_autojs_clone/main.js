@@ -17,6 +17,7 @@ var myAPP = {
     version: "V0.2.0-daily-sync",
     title: "Tangerine V0.2.0",
     characteristic: "Tangerine童话",
+    defaultSourceUrl: "https://biitavanta.github.io/Wangfuyu/latest.json",
     dailyQueuePath: "/sdcard/Tangerine每日老板.txt",
     writtenPath: "/sdcard/Storewrittenpath.txt",
     targetPackage: "com.xinhe.tataxingqiu",
@@ -78,9 +79,9 @@ ui.layout(
                         <card w="*" h="auto" margin="0 0 0 8" cardCornerRadius="4dp" cardElevation="1dp">
                             <vertical padding="16 12">
                                 <text text="云端同步设置" textStyle="bold" textSize="16sp" />
-                                <text text="先不填也可以，当前主要用于本地自加id测试，留空时不会请求云端。" textColor="#555555" margin="0 6 0 0" />
+                                <text text="默认会读取你的 GitHub Pages：{{myAPP.defaultSourceUrl}}" textColor="#555555" margin="0 6 0 0" />
                                 <text text="数据源地址" />
-                                <input id="数据源地址" hint="支持纯文本或 JSON 地址" />
+                                <input id="数据源地址" hint="支持纯文本或 JSON 地址" text="{{myAPP.defaultSourceUrl}}" />
                                 <text id="同步状态" text="今日同步状态：未同步" textColor="#666666" margin="0 8 0 0" />
                                 <text id="同步说明" text="纯文本格式：一行一个 id；JSON 格式：支持 ids/items/data/list 数组。" textColor="#777777" margin="0 6 0 0" />
                             </vertical>
@@ -248,7 +249,7 @@ ui.清理按钮.on("click", function() {
 });
 
 threads.start(function() {
-    if (String(store.get("数据源地址") || "").trim()) {
+    if (String(store.get("数据源地址") || "").trim() || String(myAPP.defaultSourceUrl || "").trim()) {
         syncToday(false);
     } else {
         appendLog("未设置数据源地址，当前使用本地模式。");
@@ -330,7 +331,7 @@ function loadConfig() {
     setTextIfStored(ui.群里添加id, store.get("群里添加id", ""));
     setTextIfStored(ui.自己添加id, store.get("自己添加id", ""));
     setTextIfStored(ui.不写的id, store.get("不写的id", ""));
-    setTextIfStored(ui.数据源地址, store.get("数据源地址", ""));
+    setTextIfStored(ui.数据源地址, store.get("数据源地址", myAPP.defaultSourceUrl));
 
     for (var i = 0; i < messageInputs.length; i++) {
         setTextIfStored(messageInputs[i], store.get("文案" + (i + 1), DEFAULT_MESSAGES[i]));
@@ -356,7 +357,7 @@ function refreshSyncStatus() {
 
 function syncToday(force) {
     try {
-        var sourceUrl = String(ui.数据源地址.text() || "").trim();
+        var sourceUrl = String(ui.数据源地址.text() || "").trim() || String(myAPP.defaultSourceUrl || "").trim();
         var today = todayKey();
         if (!sourceUrl) {
             appendLog("未填写数据源地址，当前是本地自加id测试模式。");
