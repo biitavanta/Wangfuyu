@@ -1,0 +1,18 @@
+{
+  "name": "Tangerine Local Clone",
+  "main": "main.js",
+  "packageName": "com.example.tangerine.localclone",
+  "versionName": "0.2.0",
+  "versionCode": 2,
+  "encryptLevel": 0,
+  "launchConfig": {
+    "displaySplash": true,
+    "hideLogs": false,
+    "splashText": "本地测试版"
+  },
+  "permissionConfig": {
+    "requestListOnStartup": [
+      "android.permission.WRITE_EXTERNAL_STORAGE"
+    ]
+  }
+}

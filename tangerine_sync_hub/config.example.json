@@ -1,0 +1,32 @@
+{
+  "source": {
+    "mode": "simple",
+    "url": "https://example.com/latest.txt",
+    "method": "GET",
+    "headers": {},
+    "bodyJson": {},
+    "bodyForm": {},
+    "segmentedKeys": [
+      "part-1.txt",
+      "part-2.txt"
+    ],
+    "stopText": "文件数据到此结束",
+    "valuePath": "value",
+    "decodeUri": false,
+    "replaceQuestionWithPercent": false
+  },
+  "publicBaseUrl": "https://your-name.github.io/your-repo",
+  "feishu": {
+    "enabled": false,
+    "appId": "",
+    "appSecret": "",
+    "appToken": "",
+    "tableId": "",
+    "dateField": "date",
+    "contentField": "content",
+    "countField": "count",
+    "statusField": "status",
+    "updatedAtField": "updated_at",
+    "hashField": "sha256"
+  }
+}

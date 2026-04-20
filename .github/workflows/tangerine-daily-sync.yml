@@ -1,0 +1,64 @@
+name: Tangerine Daily Sync
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "27 1 * * *"
+
+concurrency:
+  group: tangerine-daily-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Run daily sync
+        env:
+          SOURCE_MODE: ${{ secrets.SOURCE_MODE }}
+          SOURCE_URL: ${{ secrets.SOURCE_URL }}
+          SOURCE_METHOD: ${{ secrets.SOURCE_METHOD }}
+          SOURCE_HEADERS_JSON: ${{ secrets.SOURCE_HEADERS_JSON }}
+          SOURCE_BODY_JSON: ${{ secrets.SOURCE_BODY_JSON }}
+          SOURCE_BODY_FORM_JSON: ${{ secrets.SOURCE_BODY_FORM_JSON }}
+          SOURCE_SEGMENT_KEYS_JSON: ${{ secrets.SOURCE_SEGMENT_KEYS_JSON }}
+          SOURCE_SEGMENT_STOP_TEXT: ${{ secrets.SOURCE_SEGMENT_STOP_TEXT }}
+          SOURCE_SEGMENT_VALUE_PATH: ${{ secrets.SOURCE_SEGMENT_VALUE_PATH }}
+          SOURCE_SEGMENT_DECODE_URI: ${{ secrets.SOURCE_SEGMENT_DECODE_URI }}
+          SOURCE_SEGMENT_REPLACE_QUESTION: ${{ secrets.SOURCE_SEGMENT_REPLACE_QUESTION }}
+          PUBLIC_BASE_URL: ${{ secrets.PUBLIC_BASE_URL }}
+          FEISHU_ENABLED: ${{ secrets.FEISHU_ENABLED }}
+          FEISHU_APP_ID: ${{ secrets.FEISHU_APP_ID }}
+          FEISHU_APP_SECRET: ${{ secrets.FEISHU_APP_SECRET }}
+          FEISHU_APP_TOKEN: ${{ secrets.FEISHU_APP_TOKEN }}
+          FEISHU_TABLE_ID: ${{ secrets.FEISHU_TABLE_ID }}
+          FEISHU_DATE_FIELD: ${{ secrets.FEISHU_DATE_FIELD }}
+          FEISHU_CONTENT_FIELD: ${{ secrets.FEISHU_CONTENT_FIELD }}
+          FEISHU_COUNT_FIELD: ${{ secrets.FEISHU_COUNT_FIELD }}
+          FEISHU_STATUS_FIELD: ${{ secrets.FEISHU_STATUS_FIELD }}
+          FEISHU_UPDATED_AT_FIELD: ${{ secrets.FEISHU_UPDATED_AT_FIELD }}
+          FEISHU_HASH_FIELD: ${{ secrets.FEISHU_HASH_FIELD }}
+        run: node ./tangerine_sync_hub/scripts/sync.mjs
+
+      - name: Commit updated docs
+        run: |
+          if git diff --quiet docs; then
+            echo "No docs changes to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs
+          git commit -m "chore: update daily sync artifacts"
+          git push

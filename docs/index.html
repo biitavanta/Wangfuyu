@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tangerine Daily Data</title>
+  <style>
+    body { font-family: "Segoe UI", sans-serif; margin: 32px; color: #222; background: #f7f8fb; }
+    main { max-width: 720px; margin: 0 auto; background: #fff; padding: 24px; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,.08); }
+    h1 { margin-top: 0; }
+    code, a { word-break: break-all; }
+    pre { background: #111827; color: #e5e7eb; padding: 16px; border-radius: 8px; overflow: auto; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Tangerine Daily Data</h1>
+    <p>这个页面用于给统一版本的 APK 提供每日数据。</p>
+    <p><a href="./latest.json">latest.json</a></p>
+    <p><a href="./latest.txt">latest.txt</a></p>
+    <p>推荐把 Auto.js 里的数据源地址填写为 <code>latest.json</code> 的 GitHub Pages 链接。</p>
+    <pre>{
+  "version": 1,
+  "date": "2026-04-20",
+  "updatedAt": "2026-04-20T01:27:00.000Z",
+  "count": 3,
+  "sha256": "...",
+  "ids": ["123456", "234567", "345678"]
+}</pre>
+  </main>
+</body>
+</html>
